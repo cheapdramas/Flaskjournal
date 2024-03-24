@@ -11,11 +11,13 @@ PATH_STATIC = os.path.join("c:/flaskjournal/" + 'static')
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://znicjqlianttbd:2b647980896c078e408c3d95511924c5fc615fca13cf23301b9a264d0a86aca0@ec2-107-21-67-46.compute-1.amazonaws.com:5432/dbmqltpol34viq'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://znicjqlianttbd:2b647980896c078e408c3d95511924c5fc615fca13cf23301b9a264d0a86aca0@ec2-107-21-67-46.compute-1.amazonaws.com:5432/dbmqltpol34viq'
 
 
 
-
+@app.route('/')
+def show_home():
+    return 'Hello!'
 
 @app.route('/students_log')
 def students_log():
