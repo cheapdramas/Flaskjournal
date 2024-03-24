@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Поставити оцінку</title>
+        <link rel = 'stylesheet' href = "{{url_for('static',filename = 'styles.css')}}">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class = 'padd'>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+            <span>
+            <p style="text-align:center">
+                Кому сьогодні двійка?
+            </p>
+            <form method = 'post' action="add_mark">
+                <label style="width: 100px;">Кому:</label>
+                <select name="student" id="select1" onchange="saveSelection(this.id, this.value)">
+                    {%for student in student_list%}
+                        <option value = {{student[0]}}>{{student[1]}}</option>
+
+                    {%endfor%}                
+                </select>
+            
+
+
+
+
+
+            <label style="width: 100px;">Предмет:</label>
+            <select name = 'subject' id="select2" onchange="saveSelection(this.id, this.value)">
+
+                {%for subj in subj_list%}
+                    <option value = {{subj_list.index(subj)}}>{{subj}}</option>
+                {%endfor%}  
+
+
+            </select>
+
+
+            <label style="width: 100px;">Оцінка:</label>
+            <select name = 'mark' id="select3" onchange="saveSelection(this.id, this.value)">
+
+                {%for mark in marks_list%}
+                    <option value = {{mark}}>{{mark}}</option>
+                {%endfor%}
+
+            </select>
+            <label>За що:</label>
+            <input type ='text' name = 'reason'>
+            <p><input type = 'submit' class = "btn btn-success btn-sm"value = "Поставити"></p>
+
+
+
+
+            </form> 
+
+       
+            </span>
+        </div>
+        <script>
+        function saveSelection(selectId, value) {
+            localStorage.setItem(selectId, value);
+        } 
+
+
+        function setSelectedOptions() {
+            document.querySelectorAll('select').forEach(select => {
+                const savedValue = localStorage.getItem(select.id);
+            if (savedValue) {
+                select.value = savedValue;
+            }
+            });
+        }
+
+        window.onload = setSelectedOptions;
+        </script>
+    </body>
+    

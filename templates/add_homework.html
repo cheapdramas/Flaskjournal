@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html> 
+    <head>
+        <title>Виставити дз</title>
+        <link rel = 'stylesheet' href = "{{url_for('static',filename = 'styles.css')}}">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    </head>
+
+    <body>
+        <div class = 'padd'>
+            <form method = 'POST'>
+            
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+            
+
+                <div>
+                    <label style="width: 100px;">Дата:</label>
+                    <select id = 'date' name = 'date' class = 'date'>
+                        {%for date in date_list%}
+
+                            <option value = {{date}}>{{date}}</option>
+                        {%endfor%}
+                    </select>
+                </div>
+                
+                <div>
+                    <label style="width: 100px;">Предмет:</label>
+                    <select id = 'subjects' name = "subjects" class = 'subjects'></select>
+                </div>
+
+                <div>
+                    
+                    <label class="input-sizer stacked">
+                        <span>Дз: </span>
+                        <textarea oninput="this.parentNode.dataset.value = this.value" rows="1" placeholder="Опис домашньої роботи" name = 'hw_input'></textarea>
+                    </label>
+                    
+                
+                </div>
+
+                
+                <p><input type = 'submit' class = "btn btn-success btn-sm" value = "Відправити"></p>
+                </form>
+           
+       
+            
+    <script>
+    $(document).ready(function() {
+        
+        startSecondSelect()
+    
+        
+        $('#date').change(function() {
+            
+    
+            var selectedOption = $(this).val(); 
+            
+            
+            $.ajax({
+                url: '/schedule_day', 
+                method: 'POST', 
+                data: { option: selectedOption}, 
+                success: function(response) {
+                    setSecondSelect(response);
+                    
+                    console.log(response);
+                },
+                error: function(xhr, status, error) {
+                    
+                    console.error('Error sending option to the server:', error); 
+                }
+            });
+        
+        });
+
+
+        function startSecondSelect(){
+            var first_option = $('#date option:nth-child(1)').val(); 
+            $.ajax({
+                url: '/schedule_day', 
+                method: 'POST', 
+                data: { option: first_option}, 
+                success: function(response) {
+                    setSecondSelect(response);
+                    
+                    console.log(response);
+                },
+                error: function(xhr, status, error) {
+                    
+                    console.error('Error sending option to the server:', error); 
+                }
+            });
+            
+
+
+        }; 
+
+
+
+
+
+
+        function setSecondSelect(data) {
+        
+            $('#subjects').empty();
+            
+            $.each(data, function(index, item) {
+                $('#subjects').append($('<option>', { 
+                    value: item.value,
+                    text : item.text
+                }));
+        });
+        }
+        
+
+    });
+        
+    </script>    
+    </body>
+    
+
+
+</html>
